@@ -9,6 +9,7 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
     <style>
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -115,28 +116,6 @@
             transform: translateY(-2px);
         }
 
-        .btn-upload {
-            background: linear-gradient(145deg, #f5b06b, #d48a4a);
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(245, 176, 107, 0.2);
-        }
-
-        .btn-upload:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 40px rgba(245, 176, 107, 0.3);
-        }
-
-        .btn-danger {
-            background: rgba(255, 80, 80, 0.12);
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 80, 80, 0.1);
-        }
-
-        .btn-danger:hover {
-            background: rgba(255, 80, 80, 0.2);
-            transform: translateY(-2px);
-        }
-
         /* ===== STATS ===== */
         .stats-bar {
             display: flex;
@@ -168,56 +147,6 @@
             font-weight: 700;
             color: #fff;
             font-size: 1.2rem;
-        }
-
-        /* ===== UPLOAD AREA ===== */
-        .upload-area {
-            background: rgba(255, 255, 255, 0.02);
-            border: 2px dashed rgba(255, 255, 255, 0.06);
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .upload-area:hover {
-            border-color: rgba(245, 176, 107, 0.2);
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .upload-area.dragover {
-            border-color: #f5b06b;
-            background: rgba(245, 176, 107, 0.05);
-        }
-
-        .upload-area i {
-            font-size: 3rem;
-            color: rgba(245, 176, 107, 0.3);
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-area h3 {
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 400;
-            font-size: 1rem;
-        }
-
-        .upload-area h3 strong {
-            color: #f5b06b;
-            font-weight: 600;
-        }
-
-        .upload-area input[type="file"] {
-            display: none;
-        }
-
-        .upload-area .file-name {
-            color: #f5b06b;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
         }
 
         /* ===== TABLE ===== */
@@ -300,24 +229,6 @@
         .table-wrapper .btn-delete:hover {
             background: rgba(255, 80, 80, 0.2);
             transform: scale(1.05);
-        }
-
-        /* ===== EMPTY STATE ===== */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-
-        .empty-state h3 {
-            font-weight: 400;
-            font-size: 1.1rem;
         }
 
         /* ===== THEME TOGGLE ===== */
@@ -403,27 +314,6 @@
             border-color: rgba(212, 138, 74, 0.04);
         }
 
-        body.light .upload-area {
-            border-color: rgba(0, 0, 0, 0.06);
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        body.light .upload-area:hover {
-            border-color: rgba(212, 138, 74, 0.2);
-        }
-
-        body.light .upload-area h3 {
-            color: rgba(0, 0, 0, 0.4);
-        }
-
-        body.light .upload-area h3 strong {
-            color: #d48a4a;
-        }
-
-        body.light .upload-area i {
-            color: rgba(212, 138, 74, 0.2);
-        }
-
         body.light .btn-home {
             background: rgba(0, 0, 0, 0.04);
             color: rgba(0, 0, 0, 0.5);
@@ -445,17 +335,12 @@
             background: linear-gradient(145deg, #8a8a8a, #5a5a5a);
         }
 
-        body.light .empty-state {
-            color: rgba(0, 0, 0, 0.15);
-        }
-
-        body.light .btn-danger {
+        body.light .btn-delete {
             background: rgba(255, 80, 80, 0.06);
             color: #e05555;
-            border-color: rgba(255, 80, 80, 0.06);
         }
 
-        body.light .btn-danger:hover {
+        body.light .btn-delete:hover {
             background: rgba(255, 80, 80, 0.12);
         }
 
@@ -481,12 +366,6 @@
             .table-wrapper th {
                 padding: 0.6rem 0.8rem;
                 font-size: 0.8rem;
-            }
-            .upload-area {
-                padding: 1.5rem 1rem;
-            }
-            .upload-area i {
-                font-size: 2rem;
             }
         }
 
@@ -544,32 +423,11 @@
                 <i class="fas fa-user"></i>
                 <span>تعداد کاربران: <span class="num" id="userCount">۰</span></span>
             </div>
-            <div class="stat-card">
-                <i class="fas fa-file-csv"></i>
-                <span>فایل: <span id="fileName">هیچ</span></span>
-            </div>
-        </div>
-
-        <!-- ===== UPLOAD AREA ===== -->
-        <div class="upload-area" id="uploadArea">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <h3>
-                <strong>برای آپلود فایل CSV</strong> کلیک کنید یا فایل را بکشید و رها کنید
-            </h3>
-            <div class="file-name" id="fileNameDisplay"></div>
-            <input type="file" id="fileInput" accept=".csv" />
         </div>
 
         <!-- ===== TABLE ===== -->
-        <div class="table-wrapper" id="tableWrapper">
-            <div class="empty-state" id="emptyState">
-                <i class="fas fa-inbox"></i>
-                <h3>هنوز کاربری اضافه نشده است</h3>
-                <p style="color:rgba(255,255,255,0.1); font-size:0.85rem; margin-top:0.3rem;">
-                    لطفاً فایل CSV را آپلود کنید
-                </p>
-            </div>
-            <table id="userTable" style="display:none;">
+        <div class="table-wrapper">
+            <table id="userTable">
                 <thead>
                     <tr>
                         <th>ردیف</th>
@@ -613,84 +471,35 @@
             }
         });
 
-        // ===== DATA =====
-        let users = [];
+        // ===== DATA (ثابت - از فایل CSV) =====
+        let users = [
+            { name: "امیرحسین رجبی", father: "محمد رضا", birth: "۹/۷/۱۳۸۵", phone: "۰۹۹۳۴۶۳۳۵۱۵", email: "", field: "کامپیوتر نرم افزار", degree: "دیپلم کامپيوتر", cooperation: "حضوری", skills: "exel;word;coding;power point;It /هوشمصنوعی/کارای گرافیکی" },
+            { name: "رضا رجبی", father: "علی", birth: "1388/10/7", phone: "+98 919 197 7969", email: "ragabireza88@gmail.com", field: "ریاضی", degree: "سیکل", cooperation: "حضوری", skills: "exel;word;coding;power point;IT / AI / نرم افزار / pthon / HTML / java script / SQL / godot engine" },
+            { name: "محدثه کیانفر", father: "حسین", birth: "1381/8/11", phone: "09022621381", email: "", field: "حسابداری", degree: "کارشناسی", cooperation: "حضوری", skills: "exel;word;power point" },
+            { name: "یلدا صفاری", father: "ابراهیم", birth: "۱۷/۱/۱۳۸۲", phone: "09914119075", email: "", field: "آمار", degree: "کارشناسی", cooperation: "حضوری", skills: "exel;word;power point" },
+            { name: "فاطمه صادقپور", father: "مجید", birth: "1386/05/14", phone: "09139614512", email: "f1494583@gmail.com", field: "نرم افزار", degree: "ترم 2 کاردانی", cooperation: "حضوری", skills: "exel;word;power point;C#. Java." },
+            { name: "نرگس عباسیان", father: "علی", birth: "۱۶/۱۲/۱۳۸۲", phone: "۰۹۱۹۹۰۲۶۴۸۰", email: "", field: "حسابداری", degree: "لیسانس", cooperation: "حضوری", skills: "exel;word;power point" },
+            { name: "کوثر صادق پور بادی", father: "محمد", birth: "1381/07/12", phone: "09908727683", email: "", field: "علوم سیاسی", degree: "لیسانس علوم سیاسی و دانشجوی ارشد علوم سیاسی", cooperation: "حضوری", skills: "exel;word;power point" },
+            { name: "زینب حیدری", father: "محمد", birth: "۱۳۸۶/۴/۱۹", phone: "۰۹۹۳۳۶۱۱۰۷۱", email: "heydariz632@gmail.com", field: "کامپیوتر (شبکه های کامپیوتری)", degree: "دیپلم (دانشجو)", cooperation: "حضوری", skills: "exel;word;power point" },
+            { name: "سارا دشتی موخر", father: "مجتبی", birth: "۱۳۸۲/۱۰/۱۴", phone: "۰۹۹۰۷۷۱۶۰۲۴", email: "", field: "علوم تربیتی", degree: "کاردانی", cooperation: "حضوری", skills: "exel;word;power point" },
+            { name: "نرگس حفاری", father: "محمدرضا", birth: "۳شهریور۸۴", phone: "۰۹۰۱۴۰۲۹۱۱۵", email: "", field: "دبیری دانشگاه فرهنگیان", degree: "لیسانس", cooperation: "حضوری", skills: "exel;word;coding;power point;اینفوگرافیک ..هوش مصنوعی‌...طراحی لوگو" },
+            { name: "یونس رجبی", father: "محسن", birth: "1386.06.17", phone: "09022783552", email: "unes86r@gmail.com", field: "مهندسی کامپیوتر", degree: "کارشناسی پیوسته", cooperation: "حضوری", skills: "word;coding;power point;python /java / c++/networking/ windows/ IT/ AI engineer" },
+            { name: "مهدی محمدیانی", father: "علی", birth: "۱۴۰۵/۰۵/۱۰", phone: "۰۹۹۰۸۴۱۱۶۶۳", email: "mhdgmlzgml@gmail.com", field: "شبکه کامپیوتر", degree: "دیپلم", cooperation: "حضوری", skills: "exel;word;coding;power point" },
+            { name: "فائزه مشربی", father: "حسن", birth: "1381/08/17", phone: "۰۹۱۳۴۱۹۵۲۶۷", email: "mashrebifaeze@gmail.com", field: "مهندسی نرم افزار کامپیوتر", degree: "لیسانس کامپیوتر", cooperation: "حضوری", skills: "exel;word;power point" }
+        ];
 
         // ===== DOM REFS =====
-        const fileInput = document.getElementById('fileInput');
-        const uploadArea = document.getElementById('uploadArea');
-        const fileNameDisplay = document.getElementById('fileNameDisplay');
-        const fileNameStat = document.getElementById('fileName');
-        const userCount = document.getElementById('userCount');
         const tableBody = document.getElementById('tableBody');
-        const userTable = document.getElementById('userTable');
-        const emptyState = document.getElementById('emptyState');
-
-        // ===== PARSE CSV =====
-        function parseCSV(text) {
-            const lines = text.split('\n').filter(line => line.trim() !== '');
-            if (lines.length < 2) return [];
-
-            // حذف BOM
-            const headerLine = lines[0].replace(/^\uFEFF/, '');
-            const headers = headerLine.split(',').map(h => h.replace(/^"|"$/g, '').trim());
-
-            const result = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = [];
-                let current = '';
-                let inQuotes = false;
-
-                for (let char of lines[i]) {
-                    if (char === '"') {
-                        inQuotes = !inQuotes;
-                    } else if (char === ',' && !inQuotes) {
-                        values.push(current.trim());
-                        current = '';
-                    } else {
-                        current += char;
-                    }
-                }
-                values.push(current.trim());
-
-                // حذف تاریخ (مهر زمان) — ستون اول رو نادیده می‌گیریم
-                // ستون‌ها: [0]=تاریخ, [1]=نام, [2]=پدر, [3]=تولد, [4]=همراه, [5]=ایمیل, [6]=رشته, [7]=مدرک, [8]=همکاری, [9]=توانایی
-                if (values.length >= 10) {
-                    // ستون تاریخ رو نادیده می‌گیریم (index 0)
-                    result.push({
-                        name: values[1] || '',
-                        father: values[2] || '',
-                        birth: values[3] || '',
-                        phone: values[4] || '',
-                        email: values[5] || '',
-                        field: values[6] || '',
-                        degree: values[7] || '',
-                        cooperation: values[8] || '',
-                        skills: values[9] || ''
-                    });
-                }
-            }
-            return result;
-        }
+        const userCount = document.getElementById('userCount');
 
         // ===== RENDER TABLE =====
         function renderTable() {
-            if (users.length === 0) {
-                userTable.style.display = 'none';
-                emptyState.style.display = 'block';
-                userCount.textContent = '۰';
-                return;
-            }
-
-            userTable.style.display = 'table';
-            emptyState.style.display = 'none';
             userCount.textContent = users.length;
 
             tableBody.innerHTML = '';
             users.forEach((user, index) => {
                 const tr = document.createElement('tr');
 
-                // تبدیل مهارت‌ها به برچسب
                 const skillsArray = user.skills.split(';').filter(s => s.trim() !== '');
                 const skillsHtml = skillsArray.map(s =>
                     `<span class="badge-skill">${s.trim()}</span>`
@@ -724,91 +533,13 @@
                     if (confirm(`آیا از حذف "${users[index].name}" مطمئن هستید؟`)) {
                         users.splice(index, 1);
                         renderTable();
-                        saveToLocalStorage();
                     }
                 });
             });
         }
 
-        // ===== SAVE / LOAD LOCAL STORAGE =====
-        function saveToLocalStorage() {
-            localStorage.setItem('soraya_users', JSON.stringify(users));
-        }
-
-        function loadFromLocalStorage() {
-            const data = localStorage.getItem('soraya_users');
-            if (data) {
-                try {
-                    users = JSON.parse(data);
-                    renderTable();
-                    if (users.length > 0) {
-                        fileNameStat.textContent = 'ذخیره شده';
-                    }
-                } catch (e) {
-                    users = [];
-                }
-            }
-        }
-
-        // ===== HANDLE FILE =====
-        function handleFile(file) {
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const text = e.target.result;
-                const parsed = parseCSV(text);
-
-                if (parsed.length === 0) {
-                    alert('فایل معتبر نیست یا داده‌ای در آن وجود ندارد.');
-                    return;
-                }
-
-                users = parsed;
-                renderTable();
-                saveToLocalStorage();
-
-                fileNameStat.textContent = file.name;
-                fileNameDisplay.textContent = `📄 ${file.name}`;
-                fileNameDisplay.style.display = 'block';
-            };
-
-            reader.readAsText(file, 'UTF-8');
-        }
-
-        // ===== EVENTS =====
-
-        // کلیک روی منطقه آپلود
-        uploadArea.addEventListener('click', () => fileInput.click());
-
-        // انتخاب فایل
-        fileInput.addEventListener('change', function() {
-            if (this.files.length > 0) {
-                handleFile(this.files[0]);
-            }
-            this.value = '';
-        });
-
-        // Drag & Drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            if (e.dataTransfer.files.length > 0) {
-                handleFile(e.dataTransfer.files[0]);
-            }
-        });
-
-        // ===== LOAD =====
-        loadFromLocalStorage();
+        // ===== START =====
+        renderTable();
     </script>
 
 </body>
