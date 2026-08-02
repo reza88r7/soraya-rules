@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <!-- SheetJS برای خروجی Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -27,7 +29,6 @@
             transition: background 0.4s ease;
         }
 
-        /* ===== CONTAINER ===== */
         .container {
             max-width: 1300px;
             width: 100%;
@@ -51,17 +52,48 @@
             gap: 1rem;
         }
 
-        .logo-icon {
+        .logo-wrapper {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+
+        .logo-wrapper .ring {
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 200, 100, 0.25);
+            animation: spin-ring 8s linear infinite;
+        }
+
+        .logo-wrapper .ring:nth-child(2) {
+            inset: -8px;
+            border-color: rgba(180, 120, 255, 0.15);
+            animation-duration: 12s;
+            animation-direction: reverse;
+        }
+
+        @keyframes spin-ring {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo-img {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(145deg, #f5b06b, #d48a4a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            color: #fff;
-            box-shadow: 0 8px 32px rgba(200, 140, 60, 0.3);
+            object-fit: cover;
+            border: 3px solid rgba(255, 200, 100, 0.2);
+            box-shadow: 0 8px 32px rgba(200, 140, 60, 0.35);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+            background: #fff;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05) rotate(-3deg);
         }
 
         .header-title h1 {
@@ -87,6 +119,7 @@
             display: flex;
             gap: 0.8rem;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .btn {
@@ -114,6 +147,21 @@
             background: rgba(255, 255, 255, 0.12);
             color: #fff;
             transform: translateY(-2px);
+        }
+
+        .btn-excel {
+            background: linear-gradient(145deg, #1d6f42, #0f4a2a);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(29, 111, 66, 0.3);
+        }
+
+        .btn-excel:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 40px rgba(29, 111, 66, 0.4);
+        }
+
+        .btn-excel i {
+            color: #fff;
         }
 
         /* ===== STATS ===== */
@@ -211,26 +259,6 @@
             margin: 0.1rem;
         }
 
-        .table-wrapper .btn-delete {
-            background: rgba(255, 80, 80, 0.08);
-            border: none;
-            color: #ff6b6b;
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-family: 'Vazirmatn', sans-serif;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .table-wrapper .btn-delete:hover {
-            background: rgba(255, 80, 80, 0.2);
-            transform: scale(1.05);
-        }
-
         /* ===== THEME TOGGLE ===== */
         .theme-toggle {
             background: rgba(255, 255, 255, 0.06);
@@ -270,78 +298,59 @@
         body.light .header-title h1 {
             color: #1a1a1e;
         }
-
         body.light .header-title .sub {
             color: rgba(0, 0, 0, 0.4);
         }
-
         body.light .stat-card {
             background: rgba(255, 255, 255, 0.6);
             border-color: rgba(0, 0, 0, 0.04);
             color: rgba(0, 0, 0, 0.5);
         }
-
         body.light .stat-card .num {
             color: #1a1a1e;
         }
-
         body.light .table-wrapper {
             background: rgba(255, 255, 255, 0.5);
             border-color: rgba(0, 0, 0, 0.04);
         }
-
         body.light .table-wrapper thead {
             background: rgba(0, 0, 0, 0.02);
             border-color: rgba(0, 0, 0, 0.04);
         }
-
         body.light .table-wrapper th {
             color: rgba(0, 0, 0, 0.3);
         }
-
         body.light .table-wrapper td {
             color: rgba(0, 0, 0, 0.7);
             border-color: rgba(0, 0, 0, 0.03);
         }
-
         body.light .table-wrapper tbody tr:hover {
             background: rgba(0, 0, 0, 0.02);
         }
-
         body.light .table-wrapper .badge-skill {
             background: rgba(212, 138, 74, 0.08);
             color: #d48a4a;
             border-color: rgba(212, 138, 74, 0.04);
         }
-
         body.light .btn-home {
             background: rgba(0, 0, 0, 0.04);
             color: rgba(0, 0, 0, 0.5);
             border-color: rgba(0, 0, 0, 0.04);
         }
-
         body.light .btn-home:hover {
             background: rgba(0, 0, 0, 0.08);
             color: #1a1a1e;
         }
-
         body.light .theme-toggle {
             background: rgba(0, 0, 0, 0.04);
             border-color: rgba(0, 0, 0, 0.06);
             color: rgba(0, 0, 0, 0.4);
         }
-
         body.light .theme-toggle .dot {
             background: linear-gradient(145deg, #8a8a8a, #5a5a5a);
         }
-
-        body.light .btn-delete {
-            background: rgba(255, 80, 80, 0.06);
-            color: #e05555;
-        }
-
-        body.light .btn-delete:hover {
-            background: rgba(255, 80, 80, 0.12);
+        body.light .logo-img {
+            border-color: rgba(212, 138, 74, 0.2);
         }
 
         /* ===== RESPONSIVE ===== */
@@ -349,10 +358,13 @@
             .header-title h1 {
                 font-size: 1.3rem;
             }
-            .logo-icon {
+            .logo-wrapper {
                 width: 48px;
                 height: 48px;
-                font-size: 1.4rem;
+            }
+            .logo-img {
+                width: 48px;
+                height: 48px;
             }
             .stat-card {
                 padding: 0.5rem 1rem;
@@ -393,8 +405,10 @@
         <!-- ===== HEADER ===== -->
         <div class="header">
             <div class="header-left">
-                <div class="logo-icon">
-                    <i class="fas fa-users"></i>
+                <div class="logo-wrapper">
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <img src="logo.jpg" alt="لوگو شرکت ثریا" class="logo-img" />
                 </div>
                 <div class="header-title">
                     <h1>مدیریت <span>کاربران</span></h1>
@@ -409,6 +423,10 @@
                     <i class="fas fa-arrow-right"></i>
                     بازگشت به قوانین
                 </a>
+                <button class="btn btn-excel" id="exportExcel">
+                    <i class="fas fa-file-excel"></i>
+                    خروجی Excel
+                </button>
                 <div class="theme-toggle" id="themeToggle">
                     <i class="fas fa-sun"></i>
                     <div class="dot" id="themeDot"></div>
@@ -440,7 +458,6 @@
                         <th>مدرک تحصیلی</th>
                         <th>نحوه همکاری</th>
                         <th>توانایی‌ها</th>
-                        <th>عملیات</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -471,8 +488,8 @@
             }
         });
 
-        // ===== DATA (ثابت - از فایل CSV) =====
-        let users = [
+        // ===== DATA (13 کاربر از فایل CSV) =====
+        const users = [
             { name: "امیرحسین رجبی", father: "محمد رضا", birth: "۹/۷/۱۳۸۵", phone: "۰۹۹۳۴۶۳۳۵۱۵", email: "", field: "کامپیوتر نرم افزار", degree: "دیپلم کامپيوتر", cooperation: "حضوری", skills: "exel;word;coding;power point;It /هوشمصنوعی/کارای گرافیکی" },
             { name: "رضا رجبی", father: "علی", birth: "1388/10/7", phone: "+98 919 197 7969", email: "ragabireza88@gmail.com", field: "ریاضی", degree: "سیکل", cooperation: "حضوری", skills: "exel;word;coding;power point;IT / AI / نرم افزار / pthon / HTML / java script / SQL / godot engine" },
             { name: "محدثه کیانفر", father: "حسین", birth: "1381/8/11", phone: "09022621381", email: "", field: "حسابداری", degree: "کارشناسی", cooperation: "حضوری", skills: "exel;word;power point" },
@@ -516,27 +533,39 @@
                     <td>${user.degree}</td>
                     <td><span class="badge-skill">${user.cooperation}</span></td>
                     <td style="max-width:200px;">${skillsHtml}</td>
-                    <td>
-                        <button class="btn-delete" data-index="${index}">
-                            <i class="fas fa-trash-alt"></i> حذف
-                        </button>
-                    </td>
                 `;
 
                 tableBody.appendChild(tr);
             });
-
-            // رویداد حذف
-            document.querySelectorAll('.btn-delete').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const index = parseInt(this.dataset.index);
-                    if (confirm(`آیا از حذف "${users[index].name}" مطمئن هستید؟`)) {
-                        users.splice(index, 1);
-                        renderTable();
-                    }
-                });
-            });
         }
+
+        // ===== EXPORT EXCEL =====
+        document.getElementById('exportExcel').addEventListener('click', function() {
+            const excelData = users.map((user, index) => ({
+                'ردیف': index + 1,
+                'نام و نام خانوادگی': user.name,
+                'نام پدر': user.father,
+                'تاریخ تولد': user.birth,
+                'شماره همراه': user.phone,
+                'ایمیل': user.email || '',
+                'رشته': user.field,
+                'مدرک تحصیلی': user.degree,
+                'نحوه همکاری': user.cooperation,
+                'توانایی‌ها': user.skills
+            }));
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(excelData);
+            XLSX.utils.book_append_sheet(wb, ws, 'کاربران');
+
+            ws['!cols'] = [
+                { wch: 6 }, { wch: 20 }, { wch: 12 }, { wch: 14 },
+                { wch: 16 }, { wch: 28 }, { wch: 20 }, { wch: 25 },
+                { wch: 14 }, { wch: 40 }
+            ];
+
+            XLSX.writeFile(wb, 'لیست_کاربران_ثریا.xlsx');
+        });
 
         // ===== START =====
         renderTable();
